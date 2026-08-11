@@ -19,7 +19,9 @@ import os
 from typing import Any
 
 from autonoma.types import HandlerConfig
-from autonoma_fastapi import create_fastapi_handler
+from autonoma_fastapi import fastapi_handler
+from fastapi import APIRouter, Request
+from starlette.responses import Response
 
 from open_webui.autonoma.factories import FACTORIES, SEEDED_PASSWORD
 from open_webui.env import (
@@ -106,4 +108,16 @@ config = HandlerConfig(
     sdk={'orm': 'sqlalchemy', 'server': 'fastapi'},
 )
 
-router = create_fastapi_handler(config)
+router = APIRouter()
+
+
+# Autonoma posts to the endpoint with no trailing slash, and the SDK's own
+# router registers its route at "/" - so mounted under a prefix it only ever
+# answers "/api/autonoma/". The un-slashed URL then falls through to the
+# SPA static mount at "/", which answers a POST with 405 rather than
+# redirecting. Registering both spellings on the SDK's standalone handler
+# keeps whichever one arrives on the handler.
+@router.post('', include_in_schema=False)
+@router.post('/', include_in_schema=False)
+async def autonoma_endpoint(request: Request) -> Response:
+    return await fastapi_handler(config, request)

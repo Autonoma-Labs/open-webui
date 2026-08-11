@@ -162,3 +162,6 @@ opentelemetry-instrumentation-logging==0.63b1
 opentelemetry-instrumentation-httpx==0.63b1
 opentelemetry-instrumentation-aiohttp-client==0.63b1
 opentelemetry-instrumentation-system-metrics==0.63b1
+
+# Autonoma Environment Factory (end-to-end test data seeding)
+autonoma-ai[fastapi]==0.2.9

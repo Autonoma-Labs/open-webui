@@ -296,6 +296,24 @@ wheels = [
 ]
 
 [[package]]
+name = "autonoma-ai"
+version = "0.2.9"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pydantic" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ba/b6/f79e67bdf93a4e34dd0211c8ef0df908883a15331d92aa758b882fd13515/autonoma_ai-0.2.9.tar.gz", hash = "sha256:301c007a789553aac99aa2343b7763d731ce58338d51d0d11b17fe5de1e75da5", size = 37990, upload-time = "2026-07-16T21:24:43.561Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/80/51/dc3341c61d6ef6a51b4b283aa58cf0126a7f9925b01af1bad307ceb4f589/autonoma_ai-0.2.9-py3-none-any.whl", hash = "sha256:7d44cdcf2cdde1196c53f01163ad4575e00be28ff16b1ae8f4f35f398a854ffd", size = 50536, upload-time = "2026-07-16T21:24:42.137Z" },
+]
+
+[package.optional-dependencies]
+fastapi = [
+    { name = "fastapi" },
+    { name = "uvicorn" },
+]
+
+[[package]]
 name = "av"
 version = "14.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -3023,6 +3041,7 @@ dependencies = [
     { name = "asgiref" },
     { name = "async-timeout" },
     { name = "authlib" },
+    { name = "autonoma-ai", extra = ["fastapi"] },
     { name = "azure-ai-documentintelligence" },
     { name = "azure-identity" },
     { name = "azure-storage-blob" },
@@ -3162,6 +3181,7 @@ requires-dist = [
     { name = "asgiref", specifier = "==3.11.1" },
     { name = "async-timeout", specifier = "==5.0.1" },
     { name = "authlib", specifier = "==1.7.2" },
+    { name = "autonoma-ai", extras = ["fastapi"], specifier = "==0.2.9" },
     { name = "azure-ai-documentintelligence", specifier = "==1.0.2" },
     { name = "azure-identity", specifier = "==1.25.3" },
     { name = "azure-search-documents", marker = "extra == 'all'", specifier = "==12.0.0" },

@@ -76,6 +76,7 @@ from open_webui.env import (
     AUDIT_EXCLUDED_PATHS,
     AUDIT_INCLUDED_PATHS,
     AUDIT_LOG_LEVEL,
+    AUTONOMA_SHARED_SECRET,
     BYPASS_MODEL_ACCESS_CONTROL,
     CHANGELOG,
     DEPLOYMENT_ID,
@@ -823,6 +824,14 @@ app.include_router(utils.router, prefix='/api/v1/utils', tags=['utils'])
 app.include_router(terminals.router, prefix='/api/v1/terminals', tags=['terminals'])
 app.include_router(automations.router, prefix='/api/v1/automations', tags=['automations'])
 app.include_router(calendar.router, prefix='/api/v1/calendars', tags=['calendars'])
+
+# Autonoma Environment Factory - seeds/removes end-to-end test data. Every
+# request must carry a valid HMAC signature over its body, so the route is
+# inert without AUTONOMA_SHARED_SECRET.
+if AUTONOMA_SHARED_SECRET:
+    from open_webui.autonoma import router as autonoma_router
+
+    app.include_router(autonoma_router, prefix='/api/autonoma', tags=['autonoma'])
 
 # SCIM 2.0 API for identity management
 if ENABLE_SCIM:

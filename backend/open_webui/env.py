@@ -731,6 +731,14 @@ WEBUI_AUTH_COOKIE_SECURE = (
     == 'true'
 )
 
+####################################
+# AUTONOMA
+####################################
+
+# Shared with Autonoma; signs every request to the Environment Factory endpoint
+# at /api/autonoma. Unset means the endpoint is not mounted at all.
+AUTONOMA_SHARED_SECRET = os.getenv('AUTONOMA_SHARED_SECRET', '')
+
 if WEBUI_AUTH and WEBUI_SECRET_KEY == '':
     raise SystemExit(
         'WEBUI_SECRET_KEY is not set. It is a hard requirement when authentication is enabled.\n'

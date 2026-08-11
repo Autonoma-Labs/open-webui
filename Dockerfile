@@ -27,8 +27,17 @@ ARG GID=0
 FROM --platform=$BUILDPLATFORM node:22-alpine3.20 AS build
 ARG BUILD_HASH
 
-# Set Node.js options (heap limit Allocation failed - JavaScript heap out of memory)
-# ENV NODE_OPTIONS="--max-old-space-size=4096"
+# Raise the Node heap ceiling for `vite build`. Under the default ~4GB cap the
+# SvelteKit build dies with "Ineffective mark-compacts near heap limit
+# Allocation failed - JavaScript heap out of memory". The release workflow
+# injects this same value into a temporary copy of this Dockerfile (see the
+# "Prepare CI Dockerfile" step in .github/workflows/docker.yaml), which leaves
+# any build straight from the repo -- a preview environment, a local
+# `docker build` -- without it. Declaring it here is a ceiling, not a
+# reservation, so it costs nothing on a smaller machine; override the ARG to
+# lower it.
+ARG NODE_OPTIONS="--max-old-space-size=12288"
+ENV NODE_OPTIONS=${NODE_OPTIONS}
 
 WORKDIR /app
 
